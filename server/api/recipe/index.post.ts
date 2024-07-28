@@ -4,6 +4,10 @@ export default defineEventHandler(async (event) => {
     const body: {
         name: string;
         description: string;
+        category: {
+            id: number;
+            name: string;
+        }
         ingredients: {
             ingredient: {
                 id: number;
@@ -20,6 +24,7 @@ export default defineEventHandler(async (event) => {
     const insertedRecipe = await useDrizzle().insert(tables.recipe).values({
         name: body.name,
         description: body.description,
+        categoryId: body.category.id
     })
 
     const ingredientsValues = body.ingredients.map(ing => ({
@@ -30,6 +35,7 @@ export default defineEventHandler(async (event) => {
     } as InsertIngredientsRelation))
 
     const insertedIngredientRelation = await useDrizzle().insert(tables.ingredientsRelation).values(ingredientsValues)
+
 
     console.log(insertedRecipe);
     console.log(insertedIngredientRelation);

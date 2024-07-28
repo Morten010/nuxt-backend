@@ -29,14 +29,19 @@ const { data, error, refresh } = await useFetch("/api/type");
 </script>
 
 <template>
-  <div v-if="!!newIngredient.ingredient">
-    <input 
-        type="number" 
-        placeholder="10" 
-        v-model="newIngredient.amount"
+  <div 
+    v-if="!!newIngredient.ingredient"
+    class="grid grid-cols-3 mt-1 gap-1"  
+  >
+    <UiInput 
+      class="col-span-2"
+      type="number" 
+      placeholder="10" 
+      v-model="newIngredient.amount"
     />
     <select
     @change="handleTypeChange"
+    class="border rounded-lg"
     >
       <option
         v-for="ingredientType of data"
