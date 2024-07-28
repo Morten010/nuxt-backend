@@ -12,10 +12,7 @@ export const ingredient = mysqlTable("ingredient", {
 }); 
 
 export const ingredientRelations = relations(ingredient, ({ one, many }) => ({
-	ingredientsRelation: one(ingredientsRelation, {
-		fields: [ingredient.id],
-		references: [ingredientsRelation.ingredientId],
-	}),
+	ingredientsRelation: many(ingredientsRelation)
 }));
 
 export type SelectIngredient = typeof ingredient.$inferSelect;
@@ -25,10 +22,12 @@ export const recipe = mysqlTable("recipe", {
 	id: serial("id").primaryKey().notNull(),
 	name: varchar("name", { length: 255}).notNull(),
 	description: varchar("description", { length: 255}),
+	categoryId: int("categoryId").notNull(),
 }); 
 
 export const recipeRelations = relations(recipe, ({ one, many }) => ({
-	recipes: many(recipe),
+	ingredientsRelation: many(ingredientsRelation),
+	category: many(category),
 }));
 
 export type SelectRecipe = typeof recipe.$inferSelect;
@@ -43,7 +42,18 @@ export const ingredientsRelation = mysqlTable("ingredientsRelation", {
 }); 
 
 export const ingredientsRelationRelations = relations(ingredientsRelation, ({ one, many }) => ({
-	ingredientsRelations: many(ingredientsRelation),
+	ingredient: one(ingredient, {
+		fields: [ingredientsRelation.ingredientId],
+		references: [ingredient.id]
+	}),
+	recipe: one(recipe, {
+		fields: [ingredientsRelation.recipeId],
+		references: [recipe.id]
+	}),
+	type: one(type, {
+		fields: [ingredientsRelation.recipeId],
+		references: [type.id]
+	})
 }));
 
 export type SelectIngredientsRelation = typeof ingredientsRelation.$inferSelect;
@@ -64,3 +74,17 @@ export const typeRelations = relations(type, ({ one, many }) => ({
 export type SelectType = typeof type.$inferSelect;
 export type InsertType = typeof type.$inferInsert;
 
+export const category = mysqlTable("category", {
+	id: serial("id").primaryKey().notNull(),
+	name: varchar("name", { length: 255}).notNull(),
+}); 
+
+export const categoryRelations = relations(category, ({ one, many }) => ({
+	recipe: one(recipe, {
+		fields: [category.id],
+		references: [recipe.categoryId],
+	}),
+}));
+
+export type SelectCategory = typeof category.$inferSelect;
+export type InsertCategory = typeof category.$inferInsert;

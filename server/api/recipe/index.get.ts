@@ -1,7 +1,18 @@
 export default defineEventHandler((event) => {
 
-    const ingridients = useDrizzle().query.recipe.findMany({
+    const recipes = useDrizzle().query.recipe.findMany({
+        with: {
+            ingredientsRelation: {
+                columns: {
+                    amount: true
+                },
+                with: {
+                    ingredient: true,
+                    type: true
+                }
+            }
+        }
     })
 
-    return ingridients
+    return recipes
 })

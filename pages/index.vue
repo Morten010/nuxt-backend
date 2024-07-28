@@ -1,29 +1,26 @@
 <script setup lang="ts">
-    const { data, error, refresh } = await useFetch('/api/ingredient')
+    const { data, error, refresh } = await useFetch('/api/recipe')
 </script>
 
 <template>
     <h1
-        class="text-2xl font-semibold"
+        class="text-4xl font-bold text-green-950"
     >
-        Opskrifter
+        Klar til at lave mad?
     </h1>
-    <p>
+    <p
+    class="mb-2"
+    >
         Velkommen tilbagge
     </p>
+    
     <div>
-        <h2
-            class="text-xl font-semibold"
-        >
-            Morgenmad
-        </h2>
-        <p>
-            diverse kedelige ting
-        </p>
-        <ul>
-            <li>
-                lol
+       <ul>
+            <li
+                v-for="recipe of data"
+            >
+                {{ recipe.name }}
             </li>
-        </ul>
+       </ul>
     </div>
 </template>

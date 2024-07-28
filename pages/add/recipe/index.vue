@@ -28,31 +28,48 @@
 
 <template>
     <h1
-        class="text-2xl font-semibold mb-2"
+        class="text-4xl font-bold text-green-950 mb-2"
     >
-        Add recipe
+        Tilføj opskrift
     </h1>
+
     <form
         class="flex flex-col gap-2"
         @submit="handleSubmit"
     >
-        <input 
-            placeholder="name"
-            v-model="recipe.name"
-        />
-        <input 
-            placeholder="description"
-            v-model="recipe.description"
-        />
+        <label
+            class="flex flex-col text-sm"
+        >
+            <span>
+                Opskrift navn
+            </span>
+            <UiInput 
+                placeholder="name"
+                v-model="recipe.name"
+            />
+        </label>
+        <label
+            class="flex flex-col text-sm"
+        >
+            <span>
+                beskrivelse
+            </span>
+            <UiInput
+                placeholder="description"
+                v-model="recipe.description"
+            />
+        </label>
+
 
         <UiAddIngredients 
             :recipe="recipe"
         />
     
-        <button
+        <UiPrimaryButton
             @click="console.log(recipe)"
         >
             Tilføj
-        </button>
+        </UiPrimaryButton>
     </form>
+
 </template>

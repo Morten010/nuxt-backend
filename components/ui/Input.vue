@@ -1,16 +1,10 @@
 <script setup>
-defineProps({
-    modelValue: {
-        type: String,
-        default: ''
-    }
-});
+    const model = defineModel()
 </script>
 
 <template>
     <input
-        class="border"
-        :value="modelValue"
-        @input="$emit('update:modelValue', $event.target?.value)"
+        class="border p-2 rounded-lg text-base"
+        v-model="model"
     />
 </template>

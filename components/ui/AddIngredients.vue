@@ -59,11 +59,27 @@ const { data, error, refresh } = await useFetch("/api/ingredient");
 </script>
 
 <template>
+
   <section>
-    <h2 class="text-xl font-semibold mt-4 mb-2">Add ingredient</h2>
-    <ul
-        class="flex gap-2"
+
+    <div
+      class="flex justify-between"
     >
+      <h1
+          class="text-2xl font-bold text-green-950"
+      >
+          Ingredienser
+      </h1>
+      <button
+        class="aspect-square max-w-14 border text-2xl grid place-content-center hover:opacity-80 cursor-pointer w-8"
+        @click="open = true">
+        <Icon name="iconoir:plus" />
+      </button>
+    </div>
+
+    <ul
+        class="flex gap-2 mb-4"
+    > 
         <li 
             v-if="recipe.ingredients[0]"
             v-for="ing of recipe.ingredients"
@@ -71,21 +87,18 @@ const { data, error, refresh } = await useFetch("/api/ingredient");
             {{ ing.ingredient?.name }}
             {{ ing.amount }} {{ ing.type?.name }}
         </li>
-        <li
-            class="aspect-square max-w-14 border text-2xl grid place-content-center hover:opacity-80 cursor-pointer"
-            @click="open = true">
-            <Icon name="iconoir:plus" />
-        </li>
     </ul>
   </section>
+
+
   <teleport to="body" v-if="open">
     <div
       class="fixed top-0 left-0 w-full h-screen bg-black/20 backdrop-blur flex items-center justify-center z-20"
       @click="open = false">
       <div
         class="bg-white border p-2 rounded min-w-[300px]"
-        @click="(e) => e.stopPropagation()">
-        <h3 class="text-xl font-semibold">Ingredient</h3>
+        @click="(e) => e.stopPropagation()"
+      >
         <ul class="flex gap-2">
             <li
                 v-for="ingredient of data"
